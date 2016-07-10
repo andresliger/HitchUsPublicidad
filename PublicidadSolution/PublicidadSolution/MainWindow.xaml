@@ -8,7 +8,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}" Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto" Title="HitchUs! - Publicidad" Height="728" Width="1024" WindowStartupLocation="CenterScreen" WindowState="Maximized" Icon="Resources/hitch_us.ico">
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto" Title="HitchUs! - Publicidad" Height="728" Width="1024" WindowStartupLocation="CenterScreen" Icon="Resources/hitch_us.ico" >
 
     <Grid>
         <Grid.ColumnDefinitions>

@@ -31,20 +31,21 @@ namespace PublicidadSolution
             Boolean success = false;
             if (txtUsuario.Text != "" && txtUsuario.Text != "")
             {
-                success = objDao.validateLogin(txtUsuario.Text.Trim(), txtPassword.Text.Trim());
+                success = objDao.validateLogin(txtUsuario.Text.Trim(), txtPassword.Password.Trim());
                 if (success)
                 {
                     String display = "Bienvenido ";
-                    Application.Current.Resources["User"] = objDao.retrieveUserNameLogged(txtUsuario.Text.Trim(), txtPassword.Text.Trim());
-                    MessageBox.Show(display + this.FindResource("User"), "Hitch Us - Publicidad", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Application.Current.Resources["usuario"] = objDao.retrieveUserNameLogged(txtUsuario.Text.Trim(), txtPassword.Password.Trim());
+                    display += this.FindResource("usuario");
+                    MessageBox.Show(display, "Hitch Us - Publicidad", MessageBoxButton.OK, MessageBoxImage.Information);
                     Vistas.Principal principal = new Vistas.Principal();
                     principal.Show();
                     this.Close();
                 }
                 else
                 {
-                    String display = "Login Incorrecto";
-                    MessageBox.Show(display, "Hitch Us - Publicidad", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    String display = "Los datos de ingreso no son válidos.\nIntente De nuevo";
+                    MessageBox.Show(display, "Hitch Us - Publicidad", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 clearFields();
             }
@@ -58,7 +59,7 @@ namespace PublicidadSolution
         private void clearFields()
         {
             txtUsuario.Text = "";
-            txtPassword.Text = "";
+            txtPassword.Password = "";
         }
     }
 }
