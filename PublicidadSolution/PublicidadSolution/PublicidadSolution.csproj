@@ -153,6 +153,10 @@
       <Project>{e82d23ec-a236-4f7c-b3da-0280704f15f7}</Project>
       <Name>Controller</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Modelo\Modelo.csproj">
+      <Project>{875d8a97-b1d0-4c5b-9d69-686bfb1e9a85}</Project>
+      <Name>Modelo</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -40,5 +40,16 @@ namespace Controller
             aux = usuarios.Where(s => s.USERNAME.Equals(correo) && s.PASSWORD.Equals(Utils.Encrypt.MD5HashMethod(password))).FirstOrDefault<USUARIO>();
             return aux != null ? aux.NOMBRES : "";
         }
+
+        public Boolean modificarUsuario(USUARIO user)
+        {
+            return objF.modificarUsuario(user);
+        }
+
+        public Boolean eliminarUsuario(USUARIO user)
+        {
+            return objF.eliminarUsuario(user);
+        }
+
     }
 }

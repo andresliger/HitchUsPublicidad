@@ -12,7 +12,7 @@
         <PublicidadSolution:PublicidadDataSet x:Key="publicidadDataSet"/>
         <CollectionViewSource x:Key="uSUARIOViewSource" Source="{Binding USUARIO, Source={StaticResource publicidadDataSet}}"/>
     </Window.Resources>
-    <DockPanel DataContext="{StaticResource uSUARIOViewSource}">
+    <DockPanel LastChildFill="True">
         <Menu IsMainMenu="True" DockPanel.Dock="Top" Background="#1565C0" Foreground="White">
             <MenuItem Header="HitchUs">
                 <MenuItem.Icon>
@@ -72,14 +72,56 @@
             </ToolBar>
         </ToolBarTray>
 
-        <DataGrid x:Name="uSUARIODataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="0,313,0,77" RowDetailsVisibilityMode="VisibleWhenSelected" Width="400">
-            <DataGrid.Columns>
-                <DataGridTextColumn x:Name="iD_USUARIOColumn" Binding="{Binding ID_USUARIO}" Header="ID USUARIO" IsReadOnly="True" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="uSERNAMEColumn" Binding="{Binding USERNAME}" Header="USERNAME" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="pASSWORDColumn" Binding="{Binding PASSWORD}" Header="PASSWORD" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="nOMBRESColumn" Binding="{Binding NOMBRES}" Header="NOMBRES" Width="SizeToHeader"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <StackPanel DockPanel.Dock="Top">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Foreground="#1565C0" Margin="0,0,0,30">
+                Gestión Usuarios!                                                    
+            </TextBlock>
+        </StackPanel>
+        
+        <Grid DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" Height="300">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Grid.Row="0" x:Name="label" Content="Usuario:" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBox Grid.Column="1" Grid.Row="0" FontSize="18" x:Name="txtUsuario" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+            <Label Grid.Column="0" Grid.Row="1" x:Name="label2" Content="Contraseña:" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBox Grid.Column="1" Grid.Row="1" FontSize="18" x:Name="txtContrasenia" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+            <Label Grid.Column="0" Grid.Row="2" x:Name="label3" Content="Nombres:" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBox Grid.Column="1" Grid.Row="2" FontSize="18" x:Name="txtNombres" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+            <Button Name="btnDelete" Grid.Column="0" Grid.Row="3" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
+                        Margin="0 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="MaterialDesignFloatingActionMiniLightButton" Background="#1565C0" Foreground="White">
+                <materialDesign:PackIcon Kind="Delete" Height="24" Width="24" />
+            </Button>
+            <Button Name="btnAgregar" Grid.Column="1" Grid.Row="3" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
+                        Margin="0 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="MaterialDesignFloatingActionMiniLightButton" Background="#1565C0" Foreground="White">
+                <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
+            </Button>
+            <Button Name="btnModificar" Grid.Column="1" Grid.Row="3" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
+                        Margin="0 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="MaterialDesignFloatingActionMiniLightButton" Background="#1565C0" Foreground="White">
+                <materialDesign:PackIcon Kind="Reload" Height="24" Width="24" />
+            </Button>
+        </Grid>
+
+        <ScrollViewer DockPanel.Dock="Top">
+            <DataGrid DataContext="{StaticResource uSUARIOViewSource}" HorizontalAlignment="Center" x:Name="userDataGrid" SelectionChanged="userDataGrid_SelectionChanged" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" RowDetailsVisibilityMode="VisibleWhenSelected" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" Height="Auto"  RowEditEnding="userDataGrid_RowEditEnding" SelectedItem="{Binding Path=SelectedUser, Mode=OneWay}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn x:Name="iD_USUARIOColumn" Binding="{Binding ID_USUARIO}" Header="ID USUARIO" IsReadOnly="True" Width="SizeToHeader"/>
+                    <DataGridTextColumn x:Name="uSERNAMEColumn" Binding="{Binding USERNAME}" Header="USERNAME" Width="SizeToHeader"/>
+                    <DataGridTextColumn x:Name="pASSWORDColumn" Binding="{Binding PASSWORD}" Header="PASSWORD" Width="SizeToHeader"/>
+                    <DataGridTextColumn x:Name="nOMBRESColumn" Binding="{Binding NOMBRES}" Header="NOMBRES" Width="SizeToHeader"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </ScrollViewer>
+
+
 
     </DockPanel>
 </Window>
