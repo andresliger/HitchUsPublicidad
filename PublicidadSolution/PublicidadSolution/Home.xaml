@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PublicidadSolution"
         mc:Ignorable="d"
-        Title="Hitch Us - Home" Height="670" Width="1028" IsManipulationEnabled="True">
+        Title="Hitch Us - Home" Icon="Resources/hitch_us.ico" Height="670" Width="1028" IsManipulationEnabled="True">
     <Grid>
         <Image x:Name="image" HorizontalAlignment="Left" Height="149" Margin="136,27,0,0" VerticalAlignment="Top" Width="784" Source="Resources/banner_publicidad.png"/>
         <TextBlock FontSize="18" x:Name="textBlock" HorizontalAlignment="Left" Margin="69,202,0,0" TextWrapping="Wrap" VerticalAlignment="Top">Este sistema tiene por objetivo, permitir gestionar la <Bold>Publicidad</Bold> que será mostrada en la aplicación móvil y en el sistema WEB de HitchUs!</TextBlock>

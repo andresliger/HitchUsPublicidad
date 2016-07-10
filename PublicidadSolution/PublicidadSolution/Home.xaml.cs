@@ -37,7 +37,9 @@ namespace PublicidadSolution
                     String display = "Bienvenido ";
                     Application.Current.Resources["User"] = objDao.retrieveUserNameLogged(txtUsuario.Text.Trim(), txtPassword.Text.Trim());
                     MessageBox.Show(display + this.FindResource("User"), "Hitch Us - Publicidad", MessageBoxButton.OK, MessageBoxImage.Information);
-                    //Response.Redirect("/Pages/Reserva");
+                    Vistas.Principal principal = new Vistas.Principal();
+                    principal.Show();
+                    this.Close();
                 }
                 else
                 {
