@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:PublicidadSolution.Vistas"
         xmlns:PublicidadSolution="clr-namespace:PublicidadSolution" x:Class="PublicidadSolution.Vistas.Principal"
         mc:Ignorable="d"
-        Title="Hitch Us! - Publicidad" Height="720" Width="1024" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Loaded="Window_Loaded">
+        Title="Hitch Us! - Publicidad" Height="720" Width="1024" WindowStartupLocation="CenterScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Loaded="Window_Loaded">
     <Window.Resources>
         <PublicidadSolution:PublicidadDataSet x:Key="publicidadDataSet"/>
         <CollectionViewSource x:Key="uSUARIOViewSource" Source="{Binding USUARIO, Source={StaticResource publicidadDataSet}}"/>
@@ -71,7 +71,7 @@
                 </Button>
             </ToolBar>
         </ToolBarTray>
-
+        
         <StackPanel DockPanel.Dock="Top">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Foreground="#1565C0" Margin="0,0,0,30">
                 Gestión Usuarios!                                                    
@@ -120,8 +120,6 @@
             </DataGrid>
 
         </ScrollViewer>
-
-
-
+       
     </DockPanel>
 </Window>
