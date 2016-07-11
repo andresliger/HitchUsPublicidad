@@ -20,7 +20,6 @@ namespace PublicidadSolution
     /// </summary>
     public partial class Home : Window
     {
-        LoginDao objDao = new LoginDao();
         public Home()
         {
             InitializeComponent();            
@@ -31,11 +30,11 @@ namespace PublicidadSolution
             Boolean success = false;
             if (txtUsuario.Text != "" && txtUsuario.Text != "")
             {
-                success = objDao.validateLogin(txtUsuario.Text.Trim(), txtPassword.Password.Trim());
+                success = LoginDao.Instance.validateLogin(txtUsuario.Text.Trim(), Controller.Utils.Encrypt.MD5HashMethod(txtPassword.Password.Trim()));
                 if (success)
                 {
                     String display = "Bienvenido ";
-                    Application.Current.Resources["usuario"] = objDao.retrieveUserNameLogged(txtUsuario.Text.Trim(), txtPassword.Password.Trim());
+                    Application.Current.Resources["usuario"] = LoginDao.Instance.retrieveUserNameLogged(txtUsuario.Text.Trim(), txtPassword.Password.Trim());
                     display += this.FindResource("usuario");
                     MessageBox.Show(display, "Hitch Us - Publicidad", MessageBoxButton.OK, MessageBoxImage.Information);
                     Vistas.Principal principal = new Vistas.Principal();

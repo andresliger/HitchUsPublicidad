@@ -8,6 +8,25 @@ namespace Modelo
 {
     public class Facade
     {
+        private static Facade instance;
+
+        public static Facade Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Facade();
+                }
+                return instance;                
+            }
+        }
+
+        private Facade() {
+        }
+
+
+
         #region CRUD_USUARIO
         /// <summary>
         /// Metodos necesarios para realizar un CRUD de la Entidad Usuario
@@ -31,14 +50,13 @@ namespace Modelo
             {
                 USUARIO aux = new USUARIO();
                 aux = db.USUARIOs.Where(s => s.ID_USUARIO == objA.ID_USUARIO).FirstOrDefault<USUARIO>();
-
                 if (aux != null)
                 {
-                    aux = objA;
+                    db.Entry(aux).CurrentValues.SetValues(objA);                    
+                    //aux = objA;
                 }
+                cambios = db.SaveChanges();                
 
-                db.Entry(aux).State = System.Data.Entity.EntityState.Modified;
-                cambios = db.SaveChanges();
             }
             return cambios > 0 ? true : false;
         }
@@ -48,7 +66,12 @@ namespace Modelo
             Int32 cambios = 0;
             using (var db = new PublicidadContext())
             {
-                db.USUARIOs.Remove(objA);
+                USUARIO aux = new USUARIO();
+                aux = db.USUARIOs.Where(s => s.ID_USUARIO == objA.ID_USUARIO).FirstOrDefault<USUARIO>();
+                if (aux != null)
+                {
+                    db.USUARIOs.Remove(aux);
+                }
                 cambios = db.SaveChanges();
             }
             return cambios > 0 ? true : false;

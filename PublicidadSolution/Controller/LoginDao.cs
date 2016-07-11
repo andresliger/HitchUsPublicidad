@@ -9,20 +9,31 @@ namespace Controller
 {
     public class LoginDao
     {
-        private Facade objF = new Facade();
-        private List<USUARIO> usuarios = new List<USUARIO>();
+        private List<USUARIO> usuarios;
+        private static LoginDao instance;
 
-        public void LoginDAO()
+        public static LoginDao Instance
         {
-            objF = new Facade();
-            usuarios = objF.mostrarUsuarios();
-            
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new LoginDao();
+                }
+                return instance;
+            }
+
         }
+
+        private LoginDao()
+        {
+            usuarios = new List<USUARIO>();
+            usuarios = Facade.Instance.mostrarUsuarios();            
+        }             
 
         public Boolean validateLogin(String correo, String password)
         {
-            usuarios = objF.mostrarUsuarios();
-            USUARIO aux;
+            USUARIO aux = new USUARIO();
             aux = usuarios.Where(s => s.USERNAME.Equals(correo) && s.PASSWORD.Equals(password)).FirstOrDefault<USUARIO>();
             return aux != null ? true : false;
         }
@@ -38,18 +49,55 @@ namespace Controller
         {
             USUARIO aux;
             aux = usuarios.Where(s => s.USERNAME.Equals(correo) && s.PASSWORD.Equals(Utils.Encrypt.MD5HashMethod(password))).FirstOrDefault<USUARIO>();
-            return aux != null ? aux.NOMBRES : "";
+            return aux != null ? aux.USERNAME : "";
+        }
+
+        public List<USUARIO> retrieveAllUsers()
+        {
+            return usuarios;
         }
 
         public Boolean modificarUsuario(USUARIO user)
         {
-            return objF.modificarUsuario(user);
+            Boolean aux = Facade.Instance.modificarUsuario(user);
+            usuarios.Clear();
+            usuarios = Facade.Instance.mostrarUsuarios();
+            return aux;
         }
 
         public Boolean eliminarUsuario(USUARIO user)
         {
-            return objF.eliminarUsuario(user);
+            Boolean aux = Facade.Instance.eliminarUsuario(user);
+            usuarios.Clear();
+            usuarios = Facade.Instance.mostrarUsuarios();
+            return aux;            
         }
 
+        public Boolean agregarUsuario(USUARIO user)
+        {
+            if (!existsUser(user.USERNAME))
+            {
+                Boolean aux = Facade.Instance.insertaUsuario(user);
+                usuarios.Clear();
+                usuarios = Facade.Instance.mostrarUsuarios();
+                return aux;
+            }
+            else
+            {
+                return false;
+            }
+
+            
+        }
+
+        public Boolean existsUser(String username)
+        {
+            for (int i = 0; i < usuarios.Count; i++)
+            {
+                if (usuarios[i].USERNAME.Equals(username))
+                    return true;
+            }
+            return false;
+        }
     }
 }
