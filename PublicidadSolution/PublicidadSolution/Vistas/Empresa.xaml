@@ -1,22 +1,22 @@
 ﻿<Window
-          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PublicidadSolution.Vistas"
-        xmlns:PublicidadSolution="clr-namespace:PublicidadSolution" x:Class="PublicidadSolution.Vistas.Principal"
+        xmlns:PublicidadSolution="clr-namespace:PublicidadSolution" x:Class="PublicidadSolution.Vistas.Empresa"
         mc:Ignorable="d"
-        Title="Hitch Us! - Publicidad" Height="720" Width="1024" WindowStartupLocation="CenterScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Icon="../Resources/hitch_us.ico">
+       Title="Hitch Us! - Publicidad" Height="720" Width="1024" WindowStartupLocation="CenterScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Icon="../Resources/hitch_us.ico" >
     <Window.Resources>
         <PublicidadSolution:PublicidadDataSet x:Key="publicidadDataSet"/>
-        <CollectionViewSource x:Key="uSUARIOViewSource" Source="{Binding USUARIO, Source={StaticResource publicidadDataSet}}"/>
+        <CollectionViewSource x:Key="eMPRESAViewSource" Source="{Binding EMPRESA, Source={StaticResource publicidadDataSet}}"/>
     </Window.Resources>
     <ScrollViewer>
         <DockPanel LastChildFill="True">
             <!--#region Application Menu-->
             <Menu IsMainMenu="True" DockPanel.Dock="Top" Background="#1565C0" Foreground="White">
-                <MenuItem Header="HitchUs">
+                <MenuItem Header="HitchUs" Name="mnuHitchUs" Click="mnuHitchUs_Click">
                     <MenuItem.Icon>
                         <Image Source="../Resources/hitch_us.ico" />
                     </MenuItem.Icon>
@@ -27,7 +27,7 @@
                     </MenuItem>
                     <Separator />
                 </MenuItem>
-                <MenuItem Header="Usuarios">
+                <MenuItem Name="mnuUsuarios" Header="Usuarios" Click="mnuUsuarios_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Face"/>
                     </MenuItem.Icon>
@@ -37,17 +37,17 @@
                         <materialDesign:PackIcon Kind="Store"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Campaña">
+                <MenuItem Header="Campaña" Name="mnuCampania" Click="mnuCampania_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Voice"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Target">
+                <MenuItem Header="Target" Name="mnuTarget" Click="mnuTarget_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="NaturePeople"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Publicidad">
+                <MenuItem Name="mnuPublicidad" Header="Publicidad" Click="mnuPublicidad_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Newspaper"/>
                     </MenuItem.Icon>
@@ -65,10 +65,10 @@
                         <materialDesign:PackIcon Kind="Android"/>
                     </Button>
                     <Separator />
-                    <Button Command="Cut" ToolTip="Cut" ToolBar.OverflowMode="AsNeeded">
+                    <Button Command="Cut" ToolTip="Cortar" ToolBar.OverflowMode="AsNeeded">
                         <materialDesign:PackIcon Kind="ContentCut" />
                     </Button>
-                    <Button Command="Copy" ToolTip="Copy that stuff" ToolBar.OverflowMode="AsNeeded">
+                    <Button Command="Copy" ToolTip="Copiar" ToolBar.OverflowMode="AsNeeded">
                         <materialDesign:PackIcon Kind="ContentCopy" />
                     </Button>
                 </ToolBar>
@@ -76,12 +76,14 @@
             <!--#endregion-->
             <!--#region Application Title-->
             <StackPanel DockPanel.Dock="Top">
-                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Foreground="#1565C0" Margin="0,0,0,30"><Run Text="Gestión de "/><Bold><Run Text="Usuarios!"/></Bold></TextBlock>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Foreground="#1565C0" Margin="0,0,0,30"><Run Text="Nuestras "/><Bold><Run Text="Empresas!"/></Bold></TextBlock>
             </StackPanel>
             <!--#endregion-->
             <!--#region Data Form-->
-            <Grid DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" Height="300" Margin="0,0,0,0">
+            <Grid DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" Height="250" Width="Auto" Margin="0,0,0,0">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
@@ -90,12 +92,18 @@
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" x:Name="label" Content="Usuario:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                <TextBox Grid.Column="1" Grid.Row="0" FontSize="18" x:Name="txtUsuario" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
-                <Label Grid.Column="0" Grid.Row="1" x:Name="label2" Content="Contraseña:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                <PasswordBox Grid.Column="1" Grid.Row="1" FontSize="18" x:Name="txtContrasenia" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200"/>
-                <Label Grid.Column="0" Grid.Row="2" x:Name="label3" Content="Nombres:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                <TextBox Grid.Column="1" Grid.Row="2" FontSize="18" x:Name="txtNombres" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+                <Label Grid.Column="0" Grid.Row="0" x:Name="label" Content="Empresa:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <TextBox Grid.Column="1" Grid.Row="0" FontSize="18" x:Name="txtEmpresa" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+                <Label Grid.Column="0" Grid.Row="1" x:Name="label2" Content="RUC:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <TextBox Grid.Column="1" Grid.Row="1" FontSize="18" x:Name="txtRUC" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Width="200"/>
+                <Label Grid.Column="0" Grid.Row="2" x:Name="label3" Content="Dirección:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <TextBox Grid.Column="1" Grid.Row="2" FontSize="18" x:Name="txtDireccion" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" AcceptsReturn="True"/>
+                <Label Grid.Column="2" Grid.Row="0" x:Name="label4" Content="Teléfono:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <TextBox Grid.Column="3" Grid.Row="0" FontSize="18" x:Name="txtTelefono" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+                <Label Grid.Column="2" Grid.Row="1" x:Name="label5" Content="Email:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <TextBox Grid.Column="3" Grid.Row="1" FontSize="18" x:Name="txtEmail" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+                <Label Grid.Column="2" Grid.Row="2" x:Name="label6" Content="Representante:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <TextBox Grid.Column="3" Grid.Row="2" FontSize="18" x:Name="txtRepresentante" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
             </Grid>
             <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" Height="Auto" Orientation="Horizontal" Margin="0,0,0,30">
                 <Button Name="btnDelete" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
@@ -115,18 +123,20 @@
 
             <!--#region Table Data-->
             <ScrollViewer DockPanel.Dock="Top">
-                <DataGrid  materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" Height="Auto" DataContext="{StaticResource uSUARIOViewSource}" HorizontalAlignment="Center" x:Name="userDataGrid" SelectionChanged="userDataGrid_SelectionChanged" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" IsReadOnly="True" SelectionUnit="FullRow" Margin="0,0,0,10" SelectedItem="{Binding Path=SelectedUser, Mode=OneWay}" Width="500">
+                <DataGrid x:Name="empresaDataGrid" AutoGenerateColumns="False" HorizontalAlignment="Center" EnableRowVirtualization="True" Height="Auto" RowDetailsVisibilityMode="VisibleWhenSelected" Width="Auto" SelectionChanged="empresaDataGrid_SelectionChanged" ItemsSource="{Binding}" IsReadOnly="True" SelectionUnit="FullRow" Margin="0,0,0,20" SelectedItem="{Binding SelectedEmpresa, Mode=OneWay}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn x:Name="iD_USUARIOColumn" Binding="{Binding ID_USUARIO}" Header="ID USUARIO" IsReadOnly="True" Width="SizeToHeader"/>
-                        <DataGridTextColumn x:Name="uSERNAMEColumn" Binding="{Binding USERNAME}" Header="NOMBRE DE USUARIO" Width="SizeToHeader"/>
-                        <DataGridTextColumn x:Name="pASSWORDColumn" Binding="{Binding PASSWORD}" Header="PASSWORD" Width="SizeToHeader"/>
-                        <DataGridTextColumn x:Name="nOMBRESColumn" Binding="{Binding NOMBRES}" Header="NOMBRES COMPLETOS" Width="SizeToHeader"/>
+                        <DataGridTextColumn x:Name="rUCColumn" Binding="{Binding RUC}" Header="RUC" Width="SizeToHeader"/>
+                        <DataGridTextColumn x:Name="rAZON_SOCIALColumn" Binding="{Binding RAZON_SOCIAL}" Header="RAZON SOCIAL" Width="SizeToHeader"/>
+                        <DataGridTextColumn x:Name="eMAILColumn" Binding="{Binding EMAIL}" Header="EMAIL" Width="SizeToHeader"/>
+                        <DataGridTextColumn x:Name="tELEFONOColumn" Binding="{Binding TELEFONO}" Header="TELEFONO" Width="SizeToHeader"/>
+                        <DataGridTextColumn x:Name="dIRECCIONColumn" Binding="{Binding DIRECCION}" Header="DIRECCION" Width="SizeToHeader"/>
+                        <DataGridTextColumn x:Name="rEPRESENTANTEColumn" Binding="{Binding REPRESENTANTE}" Header="REPRESENTANTE" Width="SizeToHeader"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </ScrollViewer>
             <!--#endregion-->
 
-            <TextBlock Margin="0,8,8,8" HorizontalAlignment="Right" FontSize="14" Foreground="#607D8B" TextWrapping="Wrap" Height="29">© Hitch Us! Publicidad - Todos los derechos Reservados 2016</TextBlock>
+            <TextBlock Margin="0,8,8,8" HorizontalAlignment="Right" FontSize="14" Foreground="#607D8B" TextWrapping="Wrap" Height="29"><Run Text="© Hitch Us! Publicidad - Todos los derechos Reservados 2016"/></TextBlock>
 
         </DockPanel>
     </ScrollViewer>

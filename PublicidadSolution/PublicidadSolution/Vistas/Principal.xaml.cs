@@ -22,12 +22,17 @@ namespace PublicidadSolution.Vistas
     public partial class Principal : Window
     {
         private Modelo.USUARIO user_selected = new Modelo.USUARIO();
-        private Int32 indexSelected = 0;       
+        private Int32 indexSelected = 0;
+
+        #region
+        /// <summary>
+        /// Constructor and UI Control Validations
+        /// </summary>  
 
         public Principal()
         {
             InitializeComponent();
-            InitializeData();          
+            InitializeData();
         }
 
         public void InitializeData()
@@ -36,7 +41,6 @@ namespace PublicidadSolution.Vistas
             userDataGrid.Columns[0].Visibility = Visibility.Collapsed;
             userDataGrid.Columns[2].Visibility = Visibility.Collapsed;
             emptyFields();
-
         }
 
         public void emptyFields()
@@ -54,7 +58,7 @@ namespace PublicidadSolution.Vistas
         {
             Home home = new Home();
             home.Show();
-            this.Close();            
+            this.Close();
         }
 
         private void userDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -71,7 +75,7 @@ namespace PublicidadSolution.Vistas
                 txtUsuario.Text = user_selected.USERNAME;
                 txtNombres.Text = user_selected.NOMBRES;
                 txtContrasenia.Password = user_selected.PASSWORD;
-                enableActions();            
+                enableActions();
             }
         }
 
@@ -89,10 +93,16 @@ namespace PublicidadSolution.Vistas
                 btnModificar.IsEnabled = true;
                 btnDelete.IsEnabled = false;
             }
-            else {
+            else
+            {
                 btnModificar.IsEnabled = false;
                 btnDelete.IsEnabled = false;
             }
+        }
+
+        public Boolean areEmptyFields()
+        {
+            return (txtNombres.Text == "" || txtUsuario.Text == "" || txtContrasenia.Password == "");
         }
 
         private Modelo.USUARIO userForm()
@@ -103,6 +113,38 @@ namespace PublicidadSolution.Vistas
             aux.USERNAME = txtUsuario.Text;
             return aux;
         }
+
+        public Boolean verifyChanges()
+        {
+            if (txtNombres.Text != user_selected.NOMBRES || txtUsuario.Text != user_selected.USERNAME || txtContrasenia.Password != user_selected.PASSWORD)
+            {
+                Boolean aux = txtContrasenia.Password != user_selected.PASSWORD;
+                updateUserFromTextFields();
+                if (aux)
+                {
+                    user_selected.PASSWORD = Controller.Utils.Encrypt.MD5HashMethod(txtContrasenia.Password);
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void mnuEmpresas_Click(object sender, RoutedEventArgs e)
+        {
+            Empresa ventanaEmpresa = new Empresa();
+            ventanaEmpresa.Show();
+            this.Close();
+        }
+
+        #endregion
+
+        #region
+        /// <summary>
+        /// Button actions for CRUD 
+        /// </summary>
 
         private void btnModificar_Click(object sender, RoutedEventArgs e)
         {
@@ -123,7 +165,7 @@ namespace PublicidadSolution.Vistas
                     userDataGrid.ItemsSource = LoginDao.Instance.retrieveAllUsers();
                 }
             }
-            
+
         }
 
         private void btnAgregar_Click(object sender, RoutedEventArgs e)
@@ -134,7 +176,8 @@ namespace PublicidadSolution.Vistas
                 {
                     MessageBox.Show("El nombre de usuario ya existe", "Hitch Us - Publicidad", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-                else {
+                else
+                {
                     LoginDao.Instance.agregarUsuario(userForm());
                     MessageBox.Show("Usuario agregado exitosamente", "Hitch Us - Publicidad", MessageBoxButton.OK, MessageBoxImage.Information);
                     emptyFields();
@@ -142,7 +185,8 @@ namespace PublicidadSolution.Vistas
 
                 }
             }
-            else {
+            else
+            {
                 MessageBox.Show("Uno o más campos vacíos", "Hitch Us - Publicidad", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             btnDelete.IsEnabled = false;
@@ -158,35 +202,16 @@ namespace PublicidadSolution.Vistas
                 if (messageBoxResult == MessageBoxResult.Yes)
                 {
                     LoginDao.Instance.eliminarUsuario(user_selected);
-                    MessageBox.Show("Se ha eliminiado el usuario: "+user_selected.USERNAME, "Hitch Us - Publicidad", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Se ha eliminiado el usuario: " + user_selected.USERNAME, "Hitch Us - Publicidad", MessageBoxButton.OK, MessageBoxImage.Information);
                     userDataGrid.ItemsSource = LoginDao.Instance.retrieveAllUsers();
                     emptyFields();
                 }
-                
+
             }
         }
 
-        public Boolean verifyChanges()
-        {
-            if (txtNombres.Text != user_selected.NOMBRES || txtUsuario.Text != user_selected.USERNAME || txtContrasenia.Password != user_selected.PASSWORD)
-            {
-                Boolean aux = txtContrasenia.Password != user_selected.PASSWORD;
-                updateUserFromTextFields();
-                if (aux)
-                {
-                    user_selected.PASSWORD = Controller.Utils.Encrypt.MD5HashMethod(txtContrasenia.Password);
-                }
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
+        #endregion
 
-        public Boolean areEmptyFields()
-        {
-            return (txtNombres.Text == "" || txtUsuario.Text == "" || txtContrasenia.Password == "");
-        }
-
+        
     }
 }

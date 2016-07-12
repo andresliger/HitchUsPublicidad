@@ -25,8 +25,6 @@ namespace Modelo
         private Facade() {
         }
 
-
-
         #region CRUD_USUARIO
         /// <summary>
         /// Metodos necesarios para realizar un CRUD de la Entidad Usuario
@@ -82,6 +80,66 @@ namespace Modelo
             using (var db = new PublicidadContext())
             {
                 return db.USUARIOs.ToList();
+            }
+        }
+
+        #endregion
+
+        #region CRUD_EMPRESA
+        /// <summary>
+        /// Metodos necesarios para realizar un CRUD de la Entidad Empresa
+        /// </summary>        
+
+        public Boolean insertaEmpresa(EMPRESA objA)
+        {
+            Int32 cambios = 0;
+            using (var db = new PublicidadContext())
+            {
+                db.EMPRESAs.Add(objA);
+                cambios = db.SaveChanges();
+            }
+            return cambios > 0 ? true : false;
+        }
+
+        public Boolean modificarEmpresa(EMPRESA objA)
+        {
+            Int32 cambios = 0;
+            using (var db = new PublicidadContext())
+            {
+                EMPRESA aux = new EMPRESA();
+                aux = db.EMPRESAs.Where(s => s.RUC == objA.RUC).FirstOrDefault<EMPRESA>();
+                if (aux != null)
+                {
+                    db.Entry(aux).CurrentValues.SetValues(objA);
+                    //aux = objA;
+                }
+                cambios = db.SaveChanges();
+
+            }
+            return cambios > 0 ? true : false;
+        }
+
+        public Boolean eliminarEmpresa(EMPRESA objA)
+        {
+            Int32 cambios = 0;
+            using (var db = new PublicidadContext())
+            {
+                EMPRESA aux = new EMPRESA();
+                aux = db.EMPRESAs.Where(s => s.RUC == objA.RUC).FirstOrDefault<EMPRESA>();
+                if (aux != null)
+                {
+                    db.EMPRESAs.Remove(aux);
+                }
+                cambios = db.SaveChanges();
+            }
+            return cambios > 0 ? true : false;
+        }
+
+        public List<EMPRESA> mostrarEmpresas()
+        {
+            using (var db = new PublicidadContext())
+            {
+                return db.EMPRESAs.ToList();
             }
         }
 
