@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data;
 using Controller;
+using Modelo;
 
 namespace PublicidadSolution.Vistas
 {
@@ -21,8 +22,10 @@ namespace PublicidadSolution.Vistas
     /// </summary>
     public partial class Principal : Window
     {
-        private Modelo.USUARIO user_selected = new Modelo.USUARIO();
+        //private localRest.USUARIO user_selected = new localRest.USUARIO();
+        private Modelo.USUARIO user_selected = new USUARIO();
         private Int32 indexSelected = 0;
+        //private localRest.ServicioClient servicios = new localRest.ServicioClient();
 
         #region
         /// <summary>
@@ -38,6 +41,7 @@ namespace PublicidadSolution.Vistas
         public void InitializeData()
         {
             userDataGrid.ItemsSource = LoginDao.Instance.retrieveAllUsers();
+            //userDataGrid.ItemsSource = servicios.retrieveUsers();
             userDataGrid.Columns[0].Visibility = Visibility.Collapsed;
             userDataGrid.Columns[2].Visibility = Visibility.Collapsed;
             emptyFields();
@@ -71,6 +75,7 @@ namespace PublicidadSolution.Vistas
             indexSelected = userDataGrid.SelectedIndex;
             if (indexSelected != -1)
             {
+                //user_selected = (localRest.USUARIO)userDataGrid.SelectedItem;
                 user_selected = (Modelo.USUARIO)userDataGrid.SelectedItem;
                 txtUsuario.Text = user_selected.USERNAME;
                 txtNombres.Text = user_selected.NOMBRES;
@@ -149,7 +154,7 @@ namespace PublicidadSolution.Vistas
         private void btnModificar_Click(object sender, RoutedEventArgs e)
         {
 
-            if (LoginDao.Instance.existsUser(userForm().USERNAME))
+            /*if (LoginDao.Instance.existsUser(userForm().USERNAME))
             {
                 MessageBox.Show("El nombre de usuario ya existe", "Hitch Us - Publicidad", MessageBoxButton.OK, MessageBoxImage.Information);
                 emptyFields();
@@ -164,7 +169,7 @@ namespace PublicidadSolution.Vistas
                     emptyFields();
                     userDataGrid.ItemsSource = LoginDao.Instance.retrieveAllUsers();
                 }
-            }
+            }*/
 
         }
 
@@ -196,7 +201,7 @@ namespace PublicidadSolution.Vistas
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            if (!verifyChanges())
+            /*if (!verifyChanges())
             {
                 MessageBoxResult messageBoxResult = MessageBox.Show("Do you really want to delete the product \"" + user_selected.USERNAME + "\"?", "Confirm product deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (messageBoxResult == MessageBoxResult.Yes)
@@ -207,7 +212,7 @@ namespace PublicidadSolution.Vistas
                     emptyFields();
                 }
 
-            }
+            }*/
         }
 
         #endregion
