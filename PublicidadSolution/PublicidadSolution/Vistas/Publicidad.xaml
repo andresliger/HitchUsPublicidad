@@ -2,11 +2,196 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PublicidadSolution.Vistas"
-        mc:Ignorable="d"
-        Title="Publicidad" Height="300" Width="300">
-    <Grid>
-        
-    </Grid>
+        xmlns:PublicidadSolution="clr-namespace:PublicidadSolution" mc:Ignorable="d"
+        Title="Hitch Us! - Publicidad" Height="720" Width="1024" WindowStartupLocation="CenterScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Icon="../Resources/hitch_us.ico">
+    <Window.Resources>
+        <PublicidadSolution:PublicidadDataSet x:Key="publicidadDataSet"/>
+        <CollectionViewSource x:Key="campaniaViewSource" Source="{Binding CAMPANIA, Source={StaticResource publicidadDataSet}}"/>
+        <CollectionViewSource x:Key="empresaViewSource" Source="{Binding EMPRESA, Source={StaticResource publicidadDataSet}}"/>
+        <CollectionViewSource x:Key="targetViewSource" Source="{Binding TARGET_EDAD, Source={StaticResource publicidadDataSet}}"/>
+        <CollectionViewSource x:Key="elementViewSource" Source="{Binding ELEMENTO, Source={StaticResource publicidadDataSet}}"/>
+    </Window.Resources>
+
+    <ScrollViewer>
+        <DockPanel LastChildFill="True">
+            <!--#region Application Menu-->
+            <Menu IsMainMenu="True" DockPanel.Dock="Top" Background="#1565C0" Foreground="White">
+                <MenuItem Header="HitchUs" Name="mnuHitchUs" Click="mnuHitchUs_Click">
+                    <MenuItem.Icon>
+                        <Image Source="../Resources/hitch_us.ico" />
+                    </MenuItem.Icon>
+                    <MenuItem Header="Cerrar Sesíon" InputGestureText="Alt+F4" Click="mnuCerrarSesion_Click" x:Name="mnuCerrarSesion">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Logout"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                </MenuItem>
+                <MenuItem Name="mnuUsuarios" Header="Usuarios" Click="mnuUsuarios_Click">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Face"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="mnuEmpresas" Header="Empresas" Click="mnuEmpresas_Click">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Store"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Campaña" Name="mnuCampania" Click="mnuCampania_Click">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Voice"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Target" Name="mnuTarget" Click="mnuTarget_Click">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="NaturePeople"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Name="mnuPublicidad" Header="Publicidad" Click="mnuPublicidad_Click">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Newspaper"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </Menu>
+            <ToolBarTray DockPanel.Dock="Top">
+                <ToolBar Style="{DynamicResource MaterialDesignToolBar}">
+                    <Button ToolTip="Síguenos en Twitter">
+                        <materialDesign:PackIcon Kind="TwitterBox" />
+                    </Button>
+                    <Button ToolTip="Síguenos en Facebook">
+                        <materialDesign:PackIcon Kind="FacebookBox" />
+                    </Button>
+                    <Button ToolTip="Hitch Us App">
+                        <materialDesign:PackIcon Kind="Android"/>
+                    </Button>
+                    <Separator />
+                    <Button Command="Cut" ToolTip="Cortar" ToolBar.OverflowMode="AsNeeded">
+                        <materialDesign:PackIcon Kind="ContentCut" />
+                    </Button>
+                    <Button Command="Copy" ToolTip="Copiar" ToolBar.OverflowMode="AsNeeded">
+                        <materialDesign:PackIcon Kind="ContentCopy" />
+                    </Button>
+                </ToolBar>
+            </ToolBarTray>
+            <!--#endregion-->
+            <!--#region Application Title-->
+            <StackPanel DockPanel.Dock="Top">
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" Foreground="#1565C0" Margin="0,0,0,30"><Run Text="Nuestras "/><Bold><Run Text="Publicidades!"/></Bold></TextBlock>
+            </StackPanel>
+            <!--#endregion-->
+            <!--#region Data Form-->
+            <Grid DockPanel.Dock="Top" DataContext="{StaticResource empresaViewSource}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="400" Width="Auto" Margin="0,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" x:Name="label" Content="Empresa:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <ComboBox x:Name="cbEmpresas" Grid.Column="1" Grid.Row="0" DisplayMemberPath="RAZON_SOCIAL" HorizontalAlignment="Left" Height="Auto" ItemsSource="{Binding}" VerticalAlignment="Top" Width="200" FontSize="18">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel/>
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                </ComboBox>
+                <Label Grid.Column="2" Grid.Row="0" x:Name="labelcampania" Content="Campaña:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <StackPanel Grid.Column="3" Grid.Row="0" x:Name="contenedorCampania" DataContext="{StaticResource campaniaViewSource}" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <ComboBox x:Name="cbCampania" DisplayMemberPath="NOMBRE" Height="Auto" ItemsSource="{Binding}" Width="200" FontSize="18" >
+                        <ComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel/>
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
+                    </ComboBox>
+                </StackPanel>
+                <Label Grid.Column="0" Grid.Row="1" x:Name="label3" Content="Target:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <StackPanel Grid.Column="1" Grid.Row="1" x:Name="contenedorTarget" DataContext="{StaticResource targetViewSource}" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <ComboBox x:Name="cbTarget" DisplayMemberPath="NOMBRE" Height="Auto" ItemsSource="{Binding}" Width="200" FontSize="18" >
+                        <ComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel/>
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
+                    </ComboBox>
+                </StackPanel>
+                <Label Grid.Column="0" Grid.Row="2" x:Name="label4" Content="Nombre:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <TextBox Grid.Column="1" Grid.Row="2" FontSize="18" x:Name="txtNombre" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" AcceptsReturn="True"/>
+                <Label Grid.Column="2" Grid.Row="2" x:Name="labelLink" Content="Link:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <TextBox Grid.Column="3" Grid.Row="2" FontSize="18" x:Name="txtLink" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" AcceptsReturn="True"/>
+                <Label Grid.Column="0" Grid.Row="3" x:Name="label5" Content="Banner Publicidad WEB:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <StackPanel Grid.Column="1" Grid.Row="3" VerticalAlignment="Top" Width="200" Orientation="Horizontal">
+                    <TextBox FontSize="18" x:Name="txtBannerWeb" HorizontalAlignment="Left" TextWrapping="Wrap" IsReadOnly="True" Width="130"/>
+                    <Button Margin="10,0,0,0" Name="btnOpenFileWeb" Click="btnOpenFileWeb_Click" Width="Auto">
+                        <materialDesign:PackIcon Kind="Upload"/>
+                    </Button>
+                </StackPanel>
+                <Label Grid.Column="2" Grid.Row="3" x:Name="label6" Content="Banner Movil:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <StackPanel Grid.Column="3" Grid.Row="3" VerticalAlignment="Top" Width="200" Orientation="Horizontal">
+                    <TextBox FontSize="18" x:Name="txtBannerMobile" HorizontalAlignment="Left" TextWrapping="Wrap" IsReadOnly="True" Width="130"/>
+                    <Button Margin="10,0,0,0" Name="btnOpenFileMovil" Click="btnOpenFileMovil_Click" Width="Auto">
+                        <materialDesign:PackIcon Kind="Upload"/>
+                    </Button>
+                </StackPanel>
+
+                <Label Grid.Column="0" Grid.Row="5" x:Name="labelPosiWeb" Content="Modulo Web:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <ComboBox Grid.Column="1" Grid.Row="5" FontSize="18" x:Name="cmbPosicionWeb" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" >
+                    <ComboBoxItem>Seleccione</ComboBoxItem>
+                    <ComboBoxItem>Cabecera</ComboBoxItem>
+                    <ComboBoxItem>Pie de página</ComboBoxItem>
+                    <ComboBoxItem>Izquierda</ComboBoxItem>
+                    <ComboBoxItem>Derecha</ComboBoxItem>
+                    <ComboBoxItem>Ventana Modal</ComboBoxItem>
+                </ComboBox>
+
+                <Label Grid.Column="2" Grid.Row="5" x:Name="labelPosicionMovil" Content="Módulo Movil:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <ComboBox Grid.Column="3" Grid.Row="5" FontSize="18" x:Name="cmbPosicionMovil" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" >
+                    <ComboBoxItem>Seleccione</ComboBoxItem>
+                    <ComboBoxItem>Pantalla completa</ComboBoxItem>
+                    <ComboBoxItem>Cabecera</ComboBoxItem>
+                    <ComboBoxItem>Pie de página</ComboBoxItem>
+                </ComboBox>
+            </Grid>
+            <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" Height="Auto" Orientation="Horizontal" Margin="0,0,0,30">
+                <Button Name="btnDelete" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
+                        IsEnabled="False" Margin="0 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="Eliminar registro" Background="#1565C0" Foreground="White" Click="btnDelete_Click">
+                    <materialDesign:PackIcon Kind="Delete" Height="24" Width="24" />
+                </Button>
+                <Button Margin="20,0,0,0" Name="btnModificar" Style="{StaticResource MaterialDesignFloatingActionLightButton}" Click="btnModificar_Click"
+                        IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Actualizar registro" Background="#1565C0" Foreground="White">
+                    <materialDesign:PackIcon Kind="Reload" Height="24" Width="24" />
+                </Button>
+                <Button Margin="20,0,0,0" Name="btnAgregar" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
+                        VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Insertar nuevo registro" Background="#1565C0" Foreground="White" Click="btnAgregar_Click">
+                    <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
+                </Button>
+            </StackPanel>
+            <!--#endregion-->
+
+            <!--#region Table Data-->
+            <ScrollViewer DockPanel.Dock="Top">
+                <DataGrid  materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" Height="Auto" DataContext="{StaticResource elementViewSource}" HorizontalAlignment="Center" x:Name="elementoDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" IsReadOnly="True" SelectionUnit="FullRow" Margin="0,0,0,10" SelectedItem="{Binding Path=SelectedCampania, Mode=OneWay}" Width="AUTO">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="nombreElemento" Binding="{Binding NOMBRE}" Header="SECUENCIA" IsReadOnly="True" Width="SizeToHeader"/>
+                        <DataGridTextColumn x:Name="posicionElemento" Binding="{Binding POSICION}" Header="RUC" Width="SizeToHeader"/>
+                        <DataGridTextColumn x:Name="urlElemento" Binding="{Binding URL}" Header="NOMBRE" Width="SizeToHeader"/>
+                        <DataGridTextColumn x:Name="pathElemento" Binding="{Binding PATH}" Header="DESCRIPCIÓN" Width="SizeToHeader"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </ScrollViewer>
+            <!--#endregion-->
+            <TextBlock Margin="0,8,8,8" HorizontalAlignment="Right" FontSize="14" Foreground="#607D8B" TextWrapping="Wrap" Height="29"><Run Text="© Hitch Us! Publicidad - Todos los derechos Reservados 2016"/></TextBlock>
+        </DockPanel>
+    </ScrollViewer>
+
 </Window>

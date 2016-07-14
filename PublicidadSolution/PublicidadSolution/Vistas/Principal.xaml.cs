@@ -154,7 +154,7 @@ namespace PublicidadSolution.Vistas
         private void btnModificar_Click(object sender, RoutedEventArgs e)
         {
 
-            /*if (LoginDao.Instance.existsUser(userForm().USERNAME))
+            if (LoginDao.Instance.existsUser(userForm().USERNAME))
             {
                 MessageBox.Show("El nombre de usuario ya existe", "Hitch Us - Publicidad", MessageBoxButton.OK, MessageBoxImage.Information);
                 emptyFields();
@@ -169,7 +169,7 @@ namespace PublicidadSolution.Vistas
                     emptyFields();
                     userDataGrid.ItemsSource = LoginDao.Instance.retrieveAllUsers();
                 }
-            }*/
+            }
 
         }
 
@@ -215,8 +215,40 @@ namespace PublicidadSolution.Vistas
             }*/
         }
 
+
         #endregion
 
-        
+        private void mnuUsuarios_Click(object sender, RoutedEventArgs e)
+        {
+            Principal ventana = new Principal();
+            ventana.Show();
+            this.Close();
+        }
+
+        private void mnuCampania_Click(object sender, RoutedEventArgs e)
+        {
+            Campania ventanaCampania = new Campania();
+            ventanaCampania.Show();
+            this.Close();
+        }
+
+        private void mnuTarget_Click(object sender, RoutedEventArgs e)
+        {
+            Target ventana = new Target();
+            ventana.Show();
+            this.Close();
+        }
+
+        private void mnuPublicidad_Click(object sender, RoutedEventArgs e)
+        {
+            Publicidad ventana = new Publicidad();
+            ventana.Show();
+            this.Close();
+        }
+
+        private void mnuHitchUs_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
