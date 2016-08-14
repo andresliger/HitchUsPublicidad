@@ -65,9 +65,14 @@
       <HintPath>..\packages\MaterialDesignThemes.2.0.0.638\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
@@ -88,10 +93,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="PublicidadDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>PublicidadDataSet.xsd</DependentUpon>
+    <Compile Include="Inicio.xaml.cs">
+      <DependentUpon>Inicio.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\AsignacionElemento.xaml.cs">
+      <DependentUpon>AsignacionElemento.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vistas\Campania.xaml.cs">
       <DependentUpon>Campania.xaml</DependentUpon>
@@ -108,25 +114,18 @@
     <Compile Include="Vistas\Target.xaml.cs">
       <DependentUpon>Target.xaml</DependentUpon>
     </Compile>
-    <Page Include="Home.xaml">
+    <Page Include="Inicio.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Home.xaml.cs">
-      <DependentUpon>Home.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Page Include="Vistas\AsignacionElemento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vistas\Campania.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -167,23 +166,17 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\Modelo.USUARIO.datasource" />
+    <None Include="Properties\DataSources\JsonMapping.CampaniaJson.datasource" />
+    <None Include="Properties\DataSources\JsonMapping.ElementoJson.datasource" />
+    <None Include="Properties\DataSources\JsonMapping.Empresa.datasource" />
+    <None Include="Properties\DataSources\JsonMapping.SegmentoDetalleCampaniaJson.datasource" />
+    <None Include="Properties\DataSources\JsonMapping.TargetJson.datasource" />
+    <None Include="Properties\DataSources\JsonMapping.Usuario.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="PublicidadDataSet.xsc">
-      <DependentUpon>PublicidadDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="PublicidadDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>PublicidadDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="PublicidadDataSet.xss">
-      <DependentUpon>PublicidadDataSet.xsd</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -193,16 +186,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\banner_publicidad.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Controller\Controller.csproj">
-      <Project>{e82d23ec-a236-4f7c-b3da-0280704f15f7}</Project>
-      <Name>Controller</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modelo\Modelo.csproj">
-      <Project>{875d8a97-b1d0-4c5b-9d69-686bfb1e9a85}</Project>
-      <Name>Modelo</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -218,6 +201,30 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JsonMapping\JsonMapping.csproj">
+      <Project>{a1d0cf96-caed-4cce-ae74-42197b0451a7}</Project>
+      <Name>JsonMapping</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\hitch_us.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\hitch_fondo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\banner_home.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\hitch_logo_home.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\banner_hitch_us.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\add_movil.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

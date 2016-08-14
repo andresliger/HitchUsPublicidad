@@ -31,10 +31,10 @@ namespace Controller
             usuarios = Facade.Instance.mostrarUsuarios();            
         }             
 
-        public Boolean validateLogin(String correo, String password)
+        public Boolean validateLogin(String usuario, String password)
         {
             USUARIO aux = new USUARIO();
-            aux = usuarios.Where(s => s.USERNAME.Equals(correo) && s.PASSWORD.Equals(password)).FirstOrDefault<USUARIO>();
+            aux = usuarios.Where(s => s.USERNAME.Equals(usuario) && s.PASSWORD.Equals(password)).FirstOrDefault<USUARIO>();
             return aux != null ? true : false;
         }
 
@@ -48,7 +48,7 @@ namespace Controller
         public String retrieveUserNameLogged(String correo, String password)
         {
             USUARIO aux;
-            aux = usuarios.Where(s => s.USERNAME.Equals(correo) && s.PASSWORD.Equals(Utils.Encrypt.MD5HashMethod(password))).FirstOrDefault<USUARIO>();
+            aux = usuarios.Where(s => s.USERNAME.Equals(correo) && s.PASSWORD.Equals(password)).FirstOrDefault<USUARIO>();
             return aux != null ? aux.USERNAME : "";
         }
 

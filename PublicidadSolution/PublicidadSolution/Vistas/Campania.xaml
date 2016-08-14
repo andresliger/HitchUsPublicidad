@@ -6,19 +6,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PublicidadSolution.Vistas"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:PublicidadSolution="clr-namespace:PublicidadSolution" x:Class="PublicidadSolution.Vistas.Campania"
+        xmlns:PublicidadSolution="clr-namespace:PublicidadSolution" xmlns:JsonMapping="clr-namespace:JsonMapping;assembly=JsonMapping" x:Class="PublicidadSolution.Vistas.Campania"
         mc:Ignorable="d"
-        Title="Hitch Us! - Publicidad" Height="720" Width="1024" WindowStartupLocation="CenterScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Icon="../Resources/hitch_us.ico" Loaded="Window_Loaded" >
+        Title="Hitch Us! - Publicidad" Height="720" Width="1024" WindowStartupLocation="CenterScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Icon="../Resources/hitch_us.ico">
     <Window.Resources>
-        <PublicidadSolution:PublicidadDataSet x:Key="publicidadDataSet"/>
-        <CollectionViewSource x:Key="campaniaViewSource" Source="{Binding CAMPANIA, Source={StaticResource publicidadDataSet}}"/>
-        <CollectionViewSource x:Key="empresaViewSource" Source="{Binding EMPRESA, Source={StaticResource publicidadDataSet}}"/>
+        <CollectionViewSource x:Key="campaniaJsonViewSource" d:DesignSource="{d:DesignInstance {x:Type JsonMapping:CampaniaJson}, CreateList=True}"/>
+        <CollectionViewSource x:Key="empresaViewSource" d:DesignSource="{d:DesignInstance {x:Type JsonMapping:Empresa}, CreateList=True}"/>
     </Window.Resources>
     <ScrollViewer>
-        <DockPanel LastChildFill="True">
+        <DockPanel LastChildFill="True" DataContext="{StaticResource campaniaJsonViewSource}">
             <!--#region Application Menu-->
             <Menu IsMainMenu="True" DockPanel.Dock="Top" Background="#1565C0" Foreground="White">
-                <MenuItem Header="HitchUs" Name="mnuHitchUs" Click="mnuHitchUs_Click">
+                <MenuItem Header="HitchUs" x:Name="mnuHitchUs">
                     <MenuItem.Icon>
                         <Image Source="../Resources/hitch_us.ico" />
                     </MenuItem.Icon>
@@ -29,30 +28,41 @@
                     </MenuItem>
                     <Separator />
                 </MenuItem>
-                <MenuItem Name="mnuUsuarios" Header="Usuarios" Click="mnuUsuarios_Click">
+                <MenuItem x:Name="mnuUsuarios" Header="Usuarios" Click="mnuUsuarios_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Face"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Name="mnuEmpresas" Header="Empresas" Click="mnuEmpresas_Click">
+                <MenuItem x:Name="mnuEmpresas" Header="Empresas" Click="mnuEmpresas_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Store"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Campaña" Name="mnuCampania" Click="mnuCampania_Click">
+                <MenuItem Header="Campaña" x:Name="mnuCampania" Click="mnuCampania_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Voice"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Target" Name="mnuTarget" Click="mnuTarget_Click">
+                <MenuItem Header="Target" x:Name="mnuTarget" Click="mnuTarget_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="NaturePeople"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Name="mnuPublicidad" Header="Publicidad" Click="mnuPublicidad_Click">
+                <MenuItem Header="Publicidad">
                     <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="Newspaper"/>
+                        <materialDesign:PackIcon Kind="Bullhorn"/>
                     </MenuItem.Icon>
+                    <MenuItem Header="Elementos" x:Name="mnuPublicidad" Click="mnuPublicidad_Click">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Newspaper"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Asignación de elementos" Click="mnuAsignacion_Click" x:Name="mnuAsignacion">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Compare"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
             </Menu>
             <ToolBarTray DockPanel.Dock="Top">
@@ -82,7 +92,7 @@
             </StackPanel>
             <!--#endregion-->
             <!--#region Data Form-->
-            <Grid DockPanel.Dock="Top" DataContext="{StaticResource empresaViewSource}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="250" Width="Auto" Margin="0,0,0,0">
+            <Grid DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" Height="250" Width="Auto" Margin="0,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
@@ -95,58 +105,83 @@
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" x:Name="label" Content="Empresa:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                <ComboBox x:Name="cbEmpresas" Grid.Column="1" Grid.Row="0" DisplayMemberPath="RAZON_SOCIAL" HorizontalAlignment="Left" Height="Auto" ItemsSource="{Binding}" VerticalAlignment="Top" Width="200" FontSize="18" SelectionChanged="cbEmpresas_SelectionChanged" >
+                <ComboBox IsReadOnly="False" DataContext="{StaticResource empresaViewSource}" x:Name="cbEmpresas" Grid.Column="1" Grid.Row="0" DisplayMemberPath="razonSocial" HorizontalAlignment="Left" Height="Auto" ItemsSource="{Binding}" VerticalAlignment="Top" Width="200" FontSize="18" SelectedValue="razonSocial" SelectedValuePath="ruc" >
                     <ComboBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel/>
                         </ItemsPanelTemplate>
                     </ComboBox.ItemsPanel>
                 </ComboBox>
+                <!--TextBox Grid.Column="1" Grid.Row="0" FontSize="18" x:Name="txtCampaniaView" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Width="200"/-->
                 <Label Grid.Column="0" Grid.Row="1" x:Name="label2" Content="Nombre Campaña:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
                 <TextBox Grid.Column="1" Grid.Row="1" FontSize="18" x:Name="txtCampania" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Width="200"/>
                 <Label Grid.Column="0" Grid.Row="2" x:Name="label3" Content="Descripción:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
                 <TextBox Grid.Column="1" Grid.Row="2" FontSize="18" x:Name="txtDescripcion" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" AcceptsReturn="True"/>
                 <Label Grid.Column="2" Grid.Row="0" x:Name="label4" Content="Fecha Inicio:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                <DatePicker Grid.Column="3" Grid.Row="0" Width="150" HorizontalAlignment="Left" Margin="0 0 0 0" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" SelectedDate="{x:Static sys:DateTime.Now}" Name="calendarInicio" FontSize="18" VerticalAlignment="Top"/>
+                <DatePicker Grid.Column="3" Grid.Row="0" Width="150" HorizontalAlignment="Left" Margin="0 0 0 0" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" SelectedDate="{x:Static sys:DateTime.Now}" x:Name="calendarInicio" FontSize="18" VerticalAlignment="Top"/>
                 <Label Grid.Column="2" Grid.Row="1" x:Name="label5" Content="Fecha Fin:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                <DatePicker Grid.Column="3" Grid.Row="1" Width="150" HorizontalAlignment="Left" Margin="0 0 0 0" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Name="calendarFin" FontSize="18" VerticalAlignment="Top"/>
+                <DatePicker Grid.Column="3" Grid.Row="1" Width="150" HorizontalAlignment="Left" Margin="0 0 0 0" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" x:Name="calendarFin" FontSize="18" VerticalAlignment="Top"/>
                 <Label Grid.Column="2" Grid.Row="2" x:Name="label6" Content="Estado:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                <CheckBox Grid.Column="3" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Name="chkEstado" Checked="chkEstado_Checked"/>
+                <CheckBox Grid.Column="3" FontSize="18" Content="Activo" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,5,0,0" x:Name="chkEstado"/>
             </Grid>
             <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" Height="Auto" Orientation="Horizontal" Margin="0,0,0,30">
-                <Button Name="btnDelete" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
-                        IsEnabled="False" Margin="0 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="Eliminar registro" Background="#1565C0" Foreground="White" Click="btnDelete_Click">
+                <Button x:Name="btnDelete" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
+					IsEnabled="False" Margin="0 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="Eliminar registro" Background="#1565C0" Foreground="White" Click="btnDelete_Click">
                     <materialDesign:PackIcon Kind="Delete" Height="24" Width="24" />
                 </Button>
-                <Button Margin="20,0,0,0" Name="btnModificar" Style="{StaticResource MaterialDesignFloatingActionLightButton}" Click="btnModificar_Click"
-                        IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Actualizar registro" Background="#1565C0" Foreground="White">
+                <Button Margin="20,0,0,0" x:Name="btnModificar" Style="{StaticResource MaterialDesignFloatingActionLightButton}" Click="btnModificar_Click"
+					IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Actualizar registro" Background="#1565C0" Foreground="White">
                     <materialDesign:PackIcon Kind="Reload" Height="24" Width="24" />
                 </Button>
-                <Button Margin="20,0,0,0" Name="btnAgregar" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
-                        VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Insertar nuevo registro" Background="#1565C0" Foreground="White" Click="btnAgregar_Click">
+                <Button Margin="20,0,0,0" x:Name="btnAgregar" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
+					VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Insertar nuevo registro" Background="#1565C0" Foreground="White" Click="btnAgregar_Click">
                     <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
+                </Button>
+                <Button Margin="20,0,0,0" x:Name="btnCancelar" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
+					VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Cancelar" Background="#F44336" Foreground="White" Click="btnCancelar_Click">
+                    <materialDesign:PackIcon Kind="Close" Height="24" Width="24" />
+                </Button>
+                <Button Margin="20,0,0,0" x:Name="btnConfirmar" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
+					VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Aceptar" Background="#4CAF50" Foreground="White" Click="btnConfirmar_Click">
+                    <materialDesign:PackIcon Kind="Check" Height="24" Width="24" />
                 </Button>
             </StackPanel>
             <!--#endregion-->
 
             <!--#region Table Data-->
             <ScrollViewer DockPanel.Dock="Top">
-                <DataGrid  materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" Height="Auto" DataContext="{StaticResource campaniaViewSource}" HorizontalAlignment="Center" x:Name="campaniaDataGrid" SelectionChanged="campaniaDataGrid_SelectionChanged" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" IsReadOnly="True" SelectionUnit="FullRow" Margin="0,0,0,10" SelectedItem="{Binding Path=SelectedCampania, Mode=OneWay}" Width="AUTO">
+                <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" RowDetailsVisibilityMode="VisibleWhenSelected" materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" HorizontalAlignment="Center" x:Name="campaniaDataGrid" SelectionChanged="campaniaDataGrid_SelectionChanged" IsReadOnly="True" SelectionUnit="FullRow" Margin="0,0,0,10"  Width="AUTO">
                     <DataGrid.Columns>
-                        <DataGridTextColumn x:Name="secCampania" Binding="{Binding SEC_CAMPANIA}" Header="SECUENCIA" IsReadOnly="True" Width="SizeToHeader"/>
-                        <DataGridTextColumn x:Name="rucCampania" Binding="{Binding RUC}" Header="RUC" Width="SizeToHeader"/>
-                        <DataGridTextColumn x:Name="nomCampania" Binding="{Binding NOMBRE}" Header="NOMBRE" Width="SizeToHeader"/>
-                        <DataGridTextColumn x:Name="desCampania" Binding="{Binding DESCRIPCION}" Header="DESCRIPCIÓN" Width="SizeToHeader"/>
-                        <DataGridTextColumn x:Name="iniCampania" Binding="{Binding FECHA_FIN}" Header="FECHA INICIO" Width="SizeToHeader"/>
-                        <DataGridTextColumn x:Name="finCampania" Binding="{Binding FECHA_FIN}" Header="FECHA FINALIZACIÓN" Width="SizeToHeader"/>
-                        <DataGridTextColumn x:Name="estCampania" Binding="{Binding ESTADO}" Header="ESTADO" Width="SizeToHeader"/>
+                        <DataGridTextColumn x:Name="secColumn" Binding="{Binding sec}" Header="SECUENCIA" Width="SizeToHeader"/>
+                        <DataGridTextColumn x:Name="empresaColumn" Binding="{Binding empresa.razonSocial}" Header="EMPRESA" Width="150"/>
+                        <DataGridTextColumn x:Name="nombreColumn" Binding="{Binding nombre}" Header="NOMBRE CAMPAÑA" Width="200"/>
+                        <DataGridTextColumn x:Name="descripcionColumn" Binding="{Binding descripcion}" Header="DESCRIPCION" Width="SizeToHeader"/>
+                        <DataGridTemplateColumn x:Name="fechaCreacionColumn" Header="FECHA CREACION" Width="SizeToHeader">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <DatePicker SelectedDate="{Binding fechaCreacion, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn x:Name="fechaInicioColumn" Header="FECHA INICIO" Width="SizeToHeader">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <DatePicker SelectedDate="{Binding fechaInicio, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn x:Name="fechaFinColumn" Header="FECHA FIN" Width="SizeToHeader">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <DatePicker SelectedDate="{Binding fechaFin, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn x:Name="estadoColumn" Binding="{Binding estado}" Header="ESTADO" Width="SizeToHeader"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </ScrollViewer>
             <!--#endregion-->
-
-
-
             <TextBlock Margin="0,8,8,8" HorizontalAlignment="Right" FontSize="14" Foreground="#607D8B" TextWrapping="Wrap" Height="29"><Run Text="© Hitch Us! Publicidad - Todos los derechos Reservados 2016"/></TextBlock>
         </DockPanel>
     </ScrollViewer>

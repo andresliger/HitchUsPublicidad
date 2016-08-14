@@ -4,15 +4,43 @@
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:PublicidadSolution"
              DispatcherUnhandledException="Application_DispatcherUnhandledException"
-             StartupUri="Home.xaml">
+             StartupUri="Inicio.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <sys:String x:Key="usuario">admin_default</sys:String>
+            <sys:String x:Key="usuario">user_logged</sys:String>
+            <sys:String x:Key="ws_retrieveUserLogged">http://localhost:8080/PublicidadCloud-web/webresources/usuario/retrieveUserLogged</sys:String>
+            <sys:String x:Key="ws_retrieveUsers">http://localhost:8080/PublicidadCloud-web/webresources/usuario/retrieveUsers</sys:String>
+            <sys:String x:Key="registrarUsuario">http://localhost:8080/PublicidadCloud-web/webresources/usuario/registrarUsuario</sys:String>
+            <sys:String x:Key="editarUsuario">http://localhost:8080/PublicidadCloud-web/webresources/usuario/editarUsuario</sys:String>
+            <sys:String x:Key="retrieveEmpresas">http://localhost:8080/PublicidadCloud-web/webresources/empresa/retrieveEmpresas</sys:String>
+            <sys:String x:Key="registrarEmpresa">http://localhost:8080/PublicidadCloud-web/webresources/empresa/registrarEmpresa</sys:String>
+            <sys:String x:Key="editarEmpresa">http://localhost:8080/PublicidadCloud-web/webresources/empresa/editarEmpresa</sys:String>
+            <sys:String x:Key="eliminarEmpresa">http://localhost:8080/PublicidadCloud-web/webresources/empresa/eliminarEmpresa</sys:String>
+            <sys:String x:Key="retrieveCampanias">http://localhost:8080/PublicidadCloud-web/webresources/campania/retrieveCampanias</sys:String>
+            <sys:String x:Key="registrarCampania">http://localhost:8080/PublicidadCloud-web/webresources/campania/registrarCampania</sys:String>
+            <sys:String x:Key="editarCampania">http://localhost:8080/PublicidadCloud-web/webresources/campania/editarCampania</sys:String>
+            <sys:String x:Key="eliminarCampania">http://localhost:8080/PublicidadCloud-web/webresources/campania/eliminarCampania</sys:String>
+            <sys:String x:Key="retrieveTargetEdad">http://localhost:8080/PublicidadCloud-web/webresources/targetEdad/retrieveTargetEdad</sys:String>
+            <sys:String x:Key="registrarTargetEdad">http://localhost:8080/PublicidadCloud-web/webresources/targetEdad/registrarTargetEdad</sys:String>
+            <sys:String x:Key="editarTargetEdad">http://localhost:8080/PublicidadCloud-web/webresources/targetEdad/editarTargetEdad</sys:String>
+            <sys:String x:Key="eliminarTargetEdad">http://localhost:8080/PublicidadCloud-web/webresources/targetEdad/eliminarTargetEdad</sys:String>
+            <sys:String x:Key="retrieveElementos">http://localhost:8080/PublicidadCloud-web/webresources/elemento/retrieveElementos</sys:String>
+            <sys:String x:Key="registrarElemento">http://localhost:8080/PublicidadCloud-web/webresources/elemento/registrarElemento</sys:String>
+            <sys:String x:Key="editarElemento">http://localhost:8080/PublicidadCloud-web/webresources/elemento/editarElemento</sys:String>
+            <sys:String x:Key="eliminarElemento">http://localhost:8080/PublicidadCloud-web/webresources/elemento/eliminarElemento</sys:String>
+            <sys:String x:Key="retrieveSegmentoDetalleCamp">http://localhost:8080/PublicidadCloud-web/webresources/segmentoDetalleC/retrieveSegmentoDetalleCamp</sys:String>
+            <sys:String x:Key="registrarSegmentoDetalleCamp">http://localhost:8080/PublicidadCloud-web/webresources/segmentoDetalleC/registrarSegmentoDetalleCamp</sys:String>
+            <sys:String x:Key="editarSegmentoDetalleCamp">http://localhost:8080/PublicidadCloud-web/webresources/segmentoDetalleC/editarSegmentoDetalleCamp</sys:String>
+            <sys:String x:Key="eliminarSegmentoDetalleCamp">http://localhost:8080/PublicidadCloud-web/webresources/segmentoDetalleC/eliminarSegmentoDetalleCamp</sys:String>
+            <sys:String x:Key="retrieveDetalleCampania">http://localhost:8080/PublicidadCloud-web/webresources/detalleCampania/retrieveDetalleCampania</sys:String>
+            <sys:String x:Key="registrarDetalleCampania">http://localhost:8080/PublicidadCloud-web/webresources/detalleCampania/registrarDetalleCampania</sys:String>
+            <sys:String x:Key="editarDetalleCampania">http://localhost:8080/PublicidadCloud-web/webresources/detalleCampania/editarDetalleCampania</sys:String>
+            <sys:String x:Key="eliminarDetalleCampania">http://localhost:8080/PublicidadCloud-web/webresources/detalleCampania/eliminarDetalleCampania</sys:String>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Indigo.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Blue.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -6,18 +6,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PublicidadSolution.Vistas"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:PublicidadSolution="clr-namespace:PublicidadSolution" x:Class="PublicidadSolution.Vistas.Principal"
+        xmlns:PublicidadSolution="clr-namespace:PublicidadSolution" xmlns:JsonMapping="clr-namespace:JsonMapping;assembly=JsonMapping" x:Class="PublicidadSolution.Vistas.Principal"
         mc:Ignorable="d"
         Title="Hitch Us! - Publicidad" Height="720" Width="1024" WindowStartupLocation="CenterScreen" HorizontalAlignment="Center" VerticalAlignment="Center" Icon="../Resources/hitch_us.ico">
     <Window.Resources>
-        <PublicidadSolution:PublicidadDataSet x:Key="publicidadDataSet"/>
-        <CollectionViewSource x:Key="uSUARIOViewSource" Source="{Binding USUARIO, Source={StaticResource publicidadDataSet}}"/>
+        <CollectionViewSource x:Key="usuarioViewSource" d:DesignSource="{d:DesignInstance {x:Type JsonMapping:Usuario}, CreateList=True}"/>
     </Window.Resources>
     <ScrollViewer>
-        <DockPanel LastChildFill="True">
+        <DockPanel LastChildFill="True" DataContext="{StaticResource usuarioViewSource}">
             <!--#region Application Menu-->
             <Menu IsMainMenu="True" DockPanel.Dock="Top" Background="#1565C0" Foreground="White">
-                <MenuItem Header="HitchUs" Name="mnuHitchUs" Click="mnuHitchUs_Click">
+                <MenuItem Header="HitchUs" x:Name="mnuHitchUs" >
                     <MenuItem.Icon>
                         <Image Source="../Resources/hitch_us.ico" />
                     </MenuItem.Icon>
@@ -28,30 +27,41 @@
                     </MenuItem>
                     <Separator />
                 </MenuItem>
-                <MenuItem Name="mnuUsuarios" Header="Usuarios" Click="mnuUsuarios_Click">
+                <MenuItem x:Name="mnuUsuarios" Header="Usuarios" Click="mnuUsuarios_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Face"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Name="mnuEmpresas" Header="Empresas" Click="mnuEmpresas_Click">
+                <MenuItem x:Name="mnuEmpresas" Header="Empresas" Click="mnuEmpresas_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Store"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Campaña" Name="mnuCampania" Click="mnuCampania_Click">
+                <MenuItem Header="Campaña" x:Name="mnuCampania" Click="mnuCampania_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="Voice"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Target" Name="mnuTarget" Click="mnuTarget_Click">
+                <MenuItem Header="Target" x:Name="mnuTarget" Click="mnuTarget_Click">
                     <MenuItem.Icon>
                         <materialDesign:PackIcon Kind="NaturePeople"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Name="mnuPublicidad" Header="Publicidad" Click="mnuPublicidad_Click">
+                <MenuItem Header="Publicidad">
                     <MenuItem.Icon>
-                        <materialDesign:PackIcon Kind="Newspaper"/>
+                        <materialDesign:PackIcon Kind="Bullhorn"/>
                     </MenuItem.Icon>
+                    <MenuItem Header="Elementos" x:Name="mnuPublicidad" Click="mnuPublicidad_Click">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Newspaper"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Asignación de elementos" Click="mnuAsignacion_Click" x:Name="mnuAsignacion">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Compare"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
             </Menu>
             <ToolBarTray DockPanel.Dock="Top">
@@ -92,43 +102,51 @@
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" x:Name="label" Content="Usuario:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                <TextBox Grid.Column="1" Grid.Row="0" FontSize="18" x:Name="txtUsuario" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+                <TextBox Grid.Column="1" Grid.Row="0" FontSize="18" x:Name="txtUsuario" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="300"/>
                 <Label Grid.Column="0" Grid.Row="1" x:Name="label2" Content="Contraseña:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                <PasswordBox Grid.Column="1" Grid.Row="1" FontSize="18" x:Name="txtContrasenia" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200"/>
+                <PasswordBox Grid.Column="1" Grid.Row="1" FontSize="18" x:Name="txtContrasenia" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300"/>
                 <Label Grid.Column="0" Grid.Row="2" x:Name="label3" Content="Nombres:" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-                <TextBox Grid.Column="1" Grid.Row="2" FontSize="18" x:Name="txtNombres" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="200"/>
+                <TextBox Grid.Column="1" Grid.Row="2" FontSize="18" x:Name="txtNombres" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="300"/>
             </Grid>
             <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" Height="Auto" Orientation="Horizontal" Margin="0,0,0,30">
-                <Button Name="btnDelete" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
-                        IsEnabled="False" Margin="0 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="Eliminar registro" Background="#1565C0" Foreground="White" Click="btnDelete_Click">
+                <!--Button x:Name="btnDelete" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
+					IsEnabled="False" Margin="0 0 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="Eliminar registro" Background="#1565C0" Foreground="White" Click="btnDelete_Click">
                     <materialDesign:PackIcon Kind="Delete" Height="24" Width="24" />
-                </Button>
-                <Button Margin="20,0,0,0" Name="btnModificar" Style="{StaticResource MaterialDesignFloatingActionLightButton}" Click="btnModificar_Click"
-                        IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Actualizar registro" Background="#1565C0" Foreground="White">
+                </-->
+                <Button Margin="20,0,0,0" x:Name="btnModificar" Style="{StaticResource MaterialDesignFloatingActionLightButton}" Click="btnModificar_Click"
+					IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" ToolTip="Actualizar registro" Background="#1565C0" Foreground="White">
                     <materialDesign:PackIcon Kind="Reload" Height="24" Width="24" />
                 </Button>
-                <Button Margin="20,0,0,0" Name="btnAgregar" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
-                        VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Insertar nuevo registro" Background="#1565C0" Foreground="White" Click="btnAgregar_Click">
+                <Button Margin="20,0,0,0" x:Name="btnAgregar" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
+					VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Insertar nuevo registro" Background="#1565C0" Foreground="White" Click="btnAgregar_Click">
                     <materialDesign:PackIcon Kind="Plus" Height="24" Width="24" />
+                </Button>
+                <Button Margin="20,0,0,0" x:Name="btnCancelar" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
+					VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Cancelar" Background="#F44336" Foreground="White" Click="btnCancelar_Click">
+                    <materialDesign:PackIcon Kind="Close" Height="24" Width="24" />
+                </Button>
+                <Button Margin="20,0,0,0" x:Name="btnConfirmar" Style="{StaticResource MaterialDesignFloatingActionLightButton}"
+					VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Cancelar" Background="#4CAF50" Foreground="White" Click="btnConfirmar_Click">
+                    <materialDesign:PackIcon Kind="Check" Height="24" Width="24" />
                 </Button>
             </StackPanel>
             <!--#endregion-->
 
             <!--#region Table Data-->
             <ScrollViewer DockPanel.Dock="Top">
-                <DataGrid  materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" Height="Auto" DataContext="{StaticResource uSUARIOViewSource}" HorizontalAlignment="Center" x:Name="userDataGrid" SelectionChanged="userDataGrid_SelectionChanged" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" IsReadOnly="True" SelectionUnit="FullRow" Margin="0,0,0,10" SelectedItem="{Binding Path=SelectedUser, Mode=OneWay}" Width="500">
+                <DataGrid AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" RowDetailsVisibilityMode="VisibleWhenSelected" materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8" Height="Auto" HorizontalAlignment="Center" Name="userDataGrid"  SelectionChanged="userDataGrid_SelectionChanged" IsReadOnly="True" SelectionUnit="FullRow" Margin="0,0,0,10" Width="Auto">
+                    
                     <DataGrid.Columns>
-                        <DataGridTextColumn x:Name="iD_USUARIOColumn" Binding="{Binding ID_USUARIO}" Header="ID USUARIO" IsReadOnly="True" Width="SizeToHeader"/>
-                        <DataGridTextColumn x:Name="uSERNAMEColumn" Binding="{Binding USERNAME}" Header="NOMBRE DE USUARIO" Width="SizeToHeader"/>
-                        <DataGridTextColumn x:Name="pASSWORDColumn" Binding="{Binding PASSWORD}" Header="PASSWORD" Width="SizeToHeader"/>
-                        <DataGridTextColumn x:Name="nOMBRESColumn" Binding="{Binding NOMBRES}" Header="NOMBRES COMPLETOS" Width="SizeToHeader"/>
+                        <DataGridTextColumn x:Name="idColumn" FontSize="18" Binding="{Binding id}" Header="ID" Width="SizeToHeader"/>
+                        <DataGridTextColumn x:Name="nombresColumn"  FontSize="18" Binding="{Binding nombres}" Header="NOMBRES COMPLETOS" Width="300"/>
+                        <DataGridTextColumn x:Name="passwordColumn" FontSize="18" Binding="{Binding password}" Header="CONTRASEÑA" Width="SizeToHeader"/>
+                        <DataGridTextColumn x:Name="usernameColumn" FontSize="18" Binding="{Binding username}" Header="USERNAME" Width="200"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </ScrollViewer>
             <!--#endregion-->
 
-            <TextBlock Margin="0,8,8,8" HorizontalAlignment="Right" FontSize="14" Foreground="#607D8B" TextWrapping="Wrap" Height="29">© Hitch Us! Publicidad - Todos los derechos Reservados 2016</TextBlock>
-
+            <TextBlock Margin="0,8,8,8" HorizontalAlignment="Right" FontSize="14" Foreground="#607D8B" TextWrapping="Wrap" Height="29"><Run Text="© Hitch Us! Publicidad - Todos los derechos Reservados 2016"/></TextBlock>
         </DockPanel>
     </ScrollViewer>
 </Window>
